@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/DSATHYANARAYANA28/container-sec.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install' // Replace with your build command
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                // Your deployment steps here
+            }
+        }
+    }
+
+    post {
+        success {
+            // Actions to take on successful build
+            sh 'git add .'
+            sh 'git commit -m "Automated commit from Jenkins"'
+            sh 'git push origin master'
+        }
+        failure {
+           
+        }
+        always {
+            
+        }
+    }
+}
